@@ -18,13 +18,14 @@ class HumanPlayer(Player):
         val = None
         while not valid_square:
             square = input(self.letter + '\'s turn. Input move (0-8): ')
+            print('')
             try:
                 val = int(square)
                 if val not in game.available_moves():
                     raise ValueError
                 valid_square = True
             except ValueError:
-                print('Invalid square. Try again.')
+                print('Invalid square. Try again.\n')
         return val
 
 class RandomComputerPlayer(Player):
@@ -48,7 +49,7 @@ class SmartComputerPlayer(Player):
     def get_move(self, game):
         if len(game.available_moves()) == 9: # if first move, then randomly choose
             square = random.choice(game.available_moves())
-        else:
+        else: # otherwise use minimax algorithm to find next best move
             square = self.minimax(game, self.letter)['position']
         return square
 

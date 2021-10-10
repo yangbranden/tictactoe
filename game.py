@@ -90,7 +90,7 @@ def play(game, x_player, o_player, print_game = True, humans_only = True):
 
             if game.current_winner:
                 if print_game:
-                    print(letter + ' won the game.')
+                    print(letter + ' won the game.\n')
                 return letter    
 
             # then alternate players
@@ -105,49 +105,57 @@ def play(game, x_player, o_player, print_game = True, humans_only = True):
 
 # Main function (runs the program)
 if __name__ == '__main__':
-    print('Choose one of the following program functions:\n'
-            + '         (A: Human vs. Human),\n'
-            + '         (B: Human vs. RandomComputerPlayer),\n'
-            + '         (C: Human vs. SmartComputerPlayer),\n'
-            + '         (D: SmartComputerPlayer vs. RandomComputerPlayer)')
-    user_choice = input().capitalize()
-    if user_choice == 'A':
-        x_player = HumanPlayer('X')
-        o_player = HumanPlayer('O')
-        t = TicTacToe()
-        play(t, x_player, o_player, True, True)
-    elif user_choice == 'B':
-        x_player = HumanPlayer('X')
-        o_player = RandomComputerPlayer('O')
-        t = TicTacToe()
-        play(t, x_player, o_player, True, False)
-    elif user_choice == 'C':
-        x_player = HumanPlayer('X')
-        o_player = SmartComputerPlayer('O')
-        t = TicTacToe()
-        play(t, x_player, o_player, True, False)
-    elif user_choice == 'D':
-        x_wins = 0
-        o_wins = 0
-        ties = 0
-        iterations = int(input('Number of times to run simulation: '))
-        for run in range(iterations):
-            x_player = RandomComputerPlayer('X')
+    first_run = True # fr tho why does python not just have a do-while loop
+    user_choice = ''
+    while user_choice is not 'Q' or first_run is not True:
+        print('Choose one of the following program functions:\n'
+                + '         (A: Human vs. Human),\n'
+                + '         (B: Human vs. RandomComputerPlayer),\n'
+                + '         (C: Human vs. SmartComputerPlayer),\n'
+                + '         (D: SmartComputerPlayer vs. RandomComputerPlayer)\n'
+                + '         (Q: Quit the program)')
+        user_choice = input().capitalize()
+        if user_choice == 'A':
+            x_player = HumanPlayer('X')
+            o_player = HumanPlayer('O')
+            t = TicTacToe()
+            play(t, x_player, o_player, True, True)
+        elif user_choice == 'B':
+            x_player = HumanPlayer('X')
+            o_player = RandomComputerPlayer('O')
+            t = TicTacToe()
+            play(t, x_player, o_player, True, False)
+        elif user_choice == 'C':
+            x_player = HumanPlayer('X')
             o_player = SmartComputerPlayer('O')
             t = TicTacToe()
-            result = play(t, x_player, o_player, False, False)
-            if result == 'X':
-                x_wins += 1
-            elif result == 'O':
-                o_wins += 1
-            else:
-                ties += 1
-            if run % 5 == 0:
-                print(f'Running {run} times...')
-        print('Overall result:\n'
-            + f'Total # of games played: {iterations}\n'
-            + f'X (RandomComputerPlayer) wins: {x_wins}\n'
-            + f'O (SmartComputerPlayer) wins: {o_wins}\n'
-            + f'Ties: {ties}')
-    else:
-        print('Not a valid input.')
+            play(t, x_player, o_player, True, False)
+        elif user_choice == 'D':
+            x_wins = 0
+            o_wins = 0
+            ties = 0
+            iterations = int(input('Number of times to run simulation: '))
+            for run in range(iterations):
+                x_player = RandomComputerPlayer('X')
+                o_player = SmartComputerPlayer('O')
+                t = TicTacToe()
+                result = play(t, x_player, o_player, False, False)
+                if result == 'X':
+                    x_wins += 1
+                elif result == 'O':
+                    o_wins += 1
+                else:
+                    ties += 1
+                if run % 5 == 0:
+                    print(f'Running {run} times...')
+            print('\nOverall result:\n'
+                + f'Total # of games played: {iterations}\n'
+                + f'X (RandomComputerPlayer) wins: {x_wins}\n'
+                + f'O (SmartComputerPlayer) wins: {o_wins}\n'
+                + f'Ties: {ties}\n')
+        elif user_choice == 'Q':
+            print('Quitting the program.')
+            break
+        else:
+            print('Not a valid input.\n')
+        first_run = False
